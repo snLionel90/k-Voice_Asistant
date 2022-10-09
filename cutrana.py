@@ -3,7 +3,11 @@ import speech_recognition as sr
 import pyaudio
 import pyttsx3
 import pywhatkit 
+import urllib.request, urllib3
+import json
+
 name= 'cutrana'
+key = 'AIzaSyDx_GXlaa2deOREuRZJon_8Y6Y06uwepis'
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -23,7 +27,7 @@ def listen():
             rec = listener.recognize_google(voice)
             rec = rec.lower()
             if name in rec:
-                rec = rec.replace('name', '')
+                rec = rec.replace(name, '')
                 print(rec)
 
     except:
@@ -38,4 +42,9 @@ def run():
         talk('reploduciendol' +music)
         pywhatkit.playonyt(music)
 
+    if 'cuantos subs tiene' in rec:
+        name_subs = rec.replace('cuantos subs tiene','').strip()
+        datoz = urllib.request.urlopen('https://www.googleapis.com/youtube/v3/channels?part=statistics&forUsername=' + name_subs.strip() + '&key=' + key).read()
+        subs = json.loads(datoz)["items"][0]["statistics"]["subscriberCount"]
+        talk(name_subs + "tiene {:,d}".filter(int(subs))+ "subscriptores")
 run()        
