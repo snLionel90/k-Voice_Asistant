@@ -37,8 +37,8 @@ def listen():
 
 def run():
     rec= listen()
-    if 'reporduce' in rec:
-        music = rec.replace('reporduce','')
+    if 'reproduce' in rec:
+        music = rec.replace('reproduce','')
         talk('reploduciendol' +music)
         pywhatkit.playonyt(music)
 
